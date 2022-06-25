@@ -5,7 +5,6 @@ var qs = require('querystring');
 var template = require('./lib/template.js');
 var path = require('path');
 var sanitizeHtml = require('sanitize-html');
-const { parse } = require('path');
 
 
 var app = http.createServer(function(request,response){
@@ -16,11 +15,11 @@ var app = http.createServer(function(request,response){
       if(queryData.id === undefined){
          fs.readdir('./data', function(error, filelist){
           var title = 'Todolist';
-          var description = 'Hello , Node.js';  
+          var description = '할일을 적고 업데이트하고 지우는 투두리스트입니다.';  
           var list = template.list(filelist);
           var html = template.HTML(title, list, 
             `<h1>${title}</h1>${description}`,
-            `<a href="/create">create</a>`
+            `<a href="/create"> + </a>`
             );
       response.writeHead(200);
       response.end(html);
@@ -37,8 +36,8 @@ var app = http.createServer(function(request,response){
         var list = template.list(filelist); 
         var html = template.HTML(sanitizedTitle, list,
            `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
-           `<a href="/create">create</a>
-            <a href="/update?id=${sanitizedTitle}">update</a>
+           `<a href="/create" style="margin-right: 5px;"> + </a>
+            <a href="/update?id=${sanitizedTitle}" style="margin-right: 5px;">update</a>
             <form action="delete_process" method="post">
                <input type="hidden" name="id" value="${sanitizedTitle}">
                <input type="submit" value="delete">
@@ -72,9 +71,11 @@ var app = http.createServer(function(request,response){
     var body = '';
     request.on('data', function(data){
        body = body + data;
+       console.log(body)
     });
     request.on('end', function(){
        var post = qs.parse(body);
+       console.log('test1',post)
        var title = post.title;
        var description = post.description;
        fs.writeFile(`data/${title}`, description, 'utf8', function(err){

@@ -8,9 +8,13 @@ module.exports = {
        <meta charset="utf-8">
        </head>
        <body>
-       ${list}
-       ${control}
-       ${body}
+       <div style="width: 50%; margin: auto; background: #FFFF99; min-height: 400px;">
+       <div style="min-height: 400px; position: relative;">
+        <div style="height: 30%">${list}</div>
+        <div style="height: 60%">${body}</div>
+        <div style="display: flex; height: 10%; position: absolute; bottom: 0;"}>${control}</div>
+       </div>
+       </div>
        </body>
        </html>  
         `;
